@@ -1,4 +1,4 @@
-type turnipBuyPrice = option(int)
+type turnipBuyPrice = int;
 
 type turnipSellPriceEntry =
  | NoPrices
@@ -9,7 +9,7 @@ type stalkBroker = string;
 
 type market = {
   stalkBroker: stalkBroker,
-  sundayPrice: turnipBuyPrice,
+  sundayPrice: option(turnipBuyPrice),
   mondayPrice: turnipSellPriceEntry,
   tuesdayPrice: turnipSellPriceEntry,
   wednesdayPrice: turnipSellPriceEntry,
@@ -18,4 +18,6 @@ type market = {
   saturdayPrice: turnipSellPriceEntry,
 }
 
-type stalkMarkets = list(market);
+type stalkMarkets = {
+  markets: list(market)
+}

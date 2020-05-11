@@ -1,7 +1,5 @@
-open StalkExchange;
-
 [@react.component]
-let make = (~turnipPurchasePrice: turnipBuyPrice) => {
+let make = (~turnipPurchasePrice) => {
     switch (turnipPurchasePrice) {
         | Some(purchasePrice) => <td> {j| $purchasePrice bells |j} -> React.string </td>
         | None => <td> "No Purchase Price" -> React.string </td>

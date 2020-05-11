@@ -1,8 +1,6 @@
 open StalkExchange;
 
-type stalkExchangeState = { 
-    markets: stalkMarkets 
-};
+type stalkExchangeState = stalkMarkets;
 
 let testRow = (broker) => {
    stalkBroker    : broker,

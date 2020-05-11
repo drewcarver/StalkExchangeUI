@@ -1,8 +1,7 @@
-
 [@react.component]
 let make = () => {
     let url = ReasonReactRouter.useUrl();
-
+        
     switch (url.path) {
         | [] => <StalkExchangeTable />
         | ["test"] => <div>"Test" -> React.string </div>
