@@ -5,6 +5,7 @@ var React = require("react");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var RootReducer$ReasonReactExamples = require("../Redux/RootReducer.bs.js");
 var StalkExchangeRow$ReasonReactExamples = require("./StalkExchangeRow.bs.js");
+var AddNewBrokerModal$ReasonReactExamples = require("./AddNewBrokerModal.bs.js");
 
 function marketsSelector(state) {
   return state.markets;
@@ -12,8 +13,10 @@ function marketsSelector(state) {
 
 function StalkExchangeTable(Props) {
   var markets = Curry._1(RootReducer$ReasonReactExamples.StalkExchangeStore.useSelector, marketsSelector);
-  Curry._1(RootReducer$ReasonReactExamples.StalkExchangeStore.useDispatch, /* () */0);
-  var store = Curry._1(RootReducer$ReasonReactExamples.StalkExchangeStore.useStore, /* () */0);
+  var match = React.useState((function () {
+          return false;
+        }));
+  var setIsOpen = match[1];
   var marketRows = Belt_List.toArray(Belt_List.map(markets, (function (marketRow) {
               return React.createElement(StalkExchangeRow$ReasonReactExamples.make, {
                           marketRow: marketRow,
@@ -22,9 +25,18 @@ function StalkExchangeTable(Props) {
             })));
   return React.createElement("div", undefined, React.createElement("button", {
                   onClick: (function (param) {
-                      return RootReducer$ReasonReactExamples.getMarkets(store);
+                      return Curry._1(setIsOpen, (function (param) {
+                                    return true;
+                                  }));
                     })
-                }, "Click"), React.createElement("table", {
+                }, "Add New Broker"), React.createElement(AddNewBrokerModal$ReasonReactExamples.make, {
+                  isOpen: match[0],
+                  onClose: (function (param) {
+                      return Curry._1(setIsOpen, (function (param) {
+                                    return false;
+                                  }));
+                    })
+                }), React.createElement("table", {
                   className: "stalk-market-table"
                 }, React.createElement("tbody", undefined, marketRows)));
 }

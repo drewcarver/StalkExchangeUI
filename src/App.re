@@ -1,6 +1,10 @@
+type test = { value: int };
+
 [@react.component]
 let make = () => {
     let url = ReasonReactRouter.useUrl();
+
+    LocalStorage.toLocalStorage("test", { value: 1 });
         
     switch (url.path) {
         | [] => <StalkExchangeTable />

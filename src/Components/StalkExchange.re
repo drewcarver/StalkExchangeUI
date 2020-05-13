@@ -18,6 +18,17 @@ type market = {
   saturdayPrice: turnipSellPriceEntry,
 }
 
+let createNewMarket = (stalkBroker, sellPrice) => {
+  stalkBroker,
+  sundayPrice:    sellPrice,
+  mondayPrice:    NoPrices,
+  tuesdayPrice:   NoPrices,
+  wednesdayPrice: NoPrices,
+  thursdayPrice:  NoPrices,
+  fridayPrice:    NoPrices,
+  saturdayPrice:  NoPrices,
+}
+
 type stalkMarkets = {
   markets: list(market)
 }

@@ -4,13 +4,12 @@ let marketsSelector = (state: AppState.stalkExchangeState) => state.markets;
 let make = () => {
   open RootReducer;
   let markets = StalkExchangeStore.useSelector(marketsSelector);
-  let dispatch = StalkExchangeStore.useDispatch();
-  let store = StalkExchangeStore.useStore();
+  let (isOpen, setIsOpen) = React.useState(() => false);
   let marketRows = Belt.List.map(markets, marketRow => <StalkExchangeRow key=marketRow.stalkBroker marketRow/>) |> Belt.List.toArray;
-  let updatePrice = () => dispatch(MarketAction(AddStalkMarketPrice("Charlene Carver", 20)));
 
   <div>
-    <button onClick={_ => getMarkets(store)}>"Click" -> React.string</button>
+    <button onClick={_ => setIsOpen(_ => true)}>"Add New Broker" -> React.string</button>
+    <AddNewBrokerModal isOpen onClose={_ => setIsOpen(_ => false)} />
     <table className="stalk-market-table">
       <tbody>
         marketRows -> React.array

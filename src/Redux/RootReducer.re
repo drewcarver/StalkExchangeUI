@@ -1,7 +1,8 @@
 open StalkExchange;
 
 type stalkExchangeAction = 
-  | AddStalkMarketPrice(stalkBroker, int);
+  | AddStalkMarketPrice(stalkBroker, int)
+  | AddNewBroker(stalkBroker)
 
 type ReduxThunk.thunk(_) +=
   | MarketAction(stalkExchangeAction);
@@ -31,16 +32,16 @@ let updateStalkMarketPurchasePrice = (broker, price, markets) => {
     }
 }
 
-let stalkMarketReducer = (state: AppState.stalkExchangeState, action) => {
+let stalkMarketReducer = (state, action) => {
     switch (action) {
-        | AddStalkMarketPrice(broker, price) => updateStalkMarketPurchasePrice(broker, price, state.markets)
-        | _ => state.markets
+        | AddStalkMarketPrice(broker, price)  => updateStalkMarketPurchasePrice(broker, price, state)
+        | AddNewBroker(stalkBroker)           => [createNewMarket(stalkBroker, None), ...state]
     }
 }
 
 let appReducer = (state: AppState.stalkExchangeState, action) => {
     switch (action) {
-        | MarketAction(action) => { ...state, markets: stalkMarketReducer(state, action) }
+        | MarketAction(action) => { markets: stalkMarketReducer(state.markets, action) }
         | _ => state
     }
 }

@@ -1,11 +1,13 @@
 'use strict';
 
+var Block = require("bs-platform/lib/js/block.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var Reductive = require("reductive/src/reductive.js");
 var Caml_exceptions = require("bs-platform/lib/js/caml_exceptions.js");
 var ReductiveContext = require("reductive/src/reductiveContext.js");
 var AppState$ReasonReactExamples = require("./AppState.bs.js");
 var Middleware$ReasonReactExamples = require("./Middleware.bs.js");
+var StalkExchange$ReasonReactExamples = require("../Components/StalkExchange.bs.js");
 
 var MarketAction = Caml_exceptions.create("RootReducer-ReasonReactExamples.MarketAction");
 
@@ -17,10 +19,10 @@ function getMarkets(store) {
         }));
   return Reductive.Store.dispatch(store, [
               MarketAction,
-              /* AddStalkMarketPrice */[
-                "Mochi",
-                40
-              ]
+              /* AddStalkMarketPrice */Block.__(0, [
+                  "Mochi",
+                  40
+                ])
             ]);
 }
 
@@ -62,13 +64,20 @@ function updateStalkMarketPurchasePrice(broker, price, markets) {
 }
 
 function stalkMarketReducer(state, action) {
-  return updateStalkMarketPurchasePrice(action[0], action[1], state.markets);
+  if (action.tag) {
+    return /* :: */[
+            StalkExchange$ReasonReactExamples.createNewMarket(action[0], undefined),
+            state
+          ];
+  } else {
+    return updateStalkMarketPurchasePrice(action[0], action[1], state);
+  }
 }
 
 function appReducer(state, action) {
   if (action[0] === MarketAction) {
     return {
-            markets: stalkMarketReducer(state, action[1])
+            markets: stalkMarketReducer(state.markets, action[1])
           };
   } else {
     return state;
