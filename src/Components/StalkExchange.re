@@ -5,17 +5,15 @@ type turnipSellPriceEntry =
  | OnlyMorning(int)
  | MorningAndEvening(int, int);
 
-type stalkBroker = string;
-
 type market = {
-  stalkBroker: stalkBroker,
-  sundayPrice: option(turnipBuyPrice),
-  mondayPrice: turnipSellPriceEntry,
-  tuesdayPrice: turnipSellPriceEntry,
+  stalkBroker:    string,
+  sundayPrice:    option(turnipBuyPrice),
+  mondayPrice:    turnipSellPriceEntry,
+  tuesdayPrice:   turnipSellPriceEntry,
   wednesdayPrice: turnipSellPriceEntry,
-  thursdayPrice: turnipSellPriceEntry,
-  fridayPrice: turnipSellPriceEntry,
-  saturdayPrice: turnipSellPriceEntry,
+  thursdayPrice:  turnipSellPriceEntry,
+  fridayPrice:    turnipSellPriceEntry,
+  saturdayPrice:  turnipSellPriceEntry,
 }
 
 let createNewMarket = (stalkBroker, sellPrice) => {
@@ -29,6 +27,13 @@ let createNewMarket = (stalkBroker, sellPrice) => {
   saturdayPrice:  NoPrices,
 }
 
+let updateMondayPrice     = (mondayPrice, market) => { ...market, mondayPrice };
+let updateTuesdayPrice    = (tuesdayPrice, market) => { ...market, tuesdayPrice };
+let updateWednesdayPrice  = (wednesdayPrice, market) => { ...market, wednesdayPrice };
+let updateThursdayPrice   = (thursdayPrice, market) => { ...market, thursdayPrice };
+let updateFridayPrice     = (fridayPrice, market) => { ...market, fridayPrice };
+let updateSaturdayPrice   = (saturdayPrice, market) => { ...market, saturdayPrice };
+
 type stalkMarkets = {
   markets: list(market)
-}
+} 

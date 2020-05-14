@@ -1,6 +1,7 @@
 'use strict';
 
 var Block = require("bs-platform/lib/js/block.js");
+var Curry = require("bs-platform/lib/js/curry.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var Reductive = require("reductive/src/reductive.js");
 var Caml_exceptions = require("bs-platform/lib/js/caml_exceptions.js");
@@ -19,58 +20,91 @@ function getMarkets(store) {
         }));
   return Reductive.Store.dispatch(store, [
               MarketAction,
-              /* AddStalkMarketPrice */Block.__(0, [
+              /* AddStalkMarketPrice */Block.__(1, [
                   "Mochi",
                   40
                 ])
             ]);
 }
 
-function updateStalkMarketPurchasePrice(broker, price, markets) {
-  var findByBroker = function (m) {
-    return m.stalkBroker === broker;
-  };
-  var marketToUpdate = Belt_List.head(Belt_List.keep(markets, findByBroker));
-  if (marketToUpdate !== undefined) {
-    var market = marketToUpdate;
-    var listWithoutOldMarket = Belt_List.keep(markets, (function (m) {
-            return m.stalkBroker !== broker;
-          }));
-    var updatedMarket_stalkBroker = market.stalkBroker;
-    var updatedMarket_sundayPrice = price;
-    var updatedMarket_mondayPrice = market.mondayPrice;
-    var updatedMarket_tuesdayPrice = market.tuesdayPrice;
-    var updatedMarket_wednesdayPrice = market.wednesdayPrice;
-    var updatedMarket_thursdayPrice = market.thursdayPrice;
-    var updatedMarket_fridayPrice = market.fridayPrice;
-    var updatedMarket_saturdayPrice = market.saturdayPrice;
-    var updatedMarket = {
-      stalkBroker: updatedMarket_stalkBroker,
-      sundayPrice: updatedMarket_sundayPrice,
-      mondayPrice: updatedMarket_mondayPrice,
-      tuesdayPrice: updatedMarket_tuesdayPrice,
-      wednesdayPrice: updatedMarket_wednesdayPrice,
-      thursdayPrice: updatedMarket_thursdayPrice,
-      fridayPrice: updatedMarket_fridayPrice,
-      saturdayPrice: updatedMarket_saturdayPrice
-    };
-    return /* :: */[
-            updatedMarket,
-            listWithoutOldMarket
-          ];
+function negated(f, x) {
+  return !Curry._1(f, x);
+}
+
+function findMarketByBroker(broker, market) {
+  return market.stalkBroker === broker;
+}
+
+function findMarketsThatDoNotMatchBroker(broker, market) {
+  return market.stalkBroker !== broker;
+}
+
+function getUpdateByDayOfWeek(dayOfWeek) {
+  switch (dayOfWeek) {
+    case /* Monday */0 :
+        return StalkExchange$ReasonReactExamples.updateMondayPrice;
+    case /* Tuesday */1 :
+        return StalkExchange$ReasonReactExamples.updateTuesdayPrice;
+    case /* Wednesday */2 :
+        return StalkExchange$ReasonReactExamples.updateWednesdayPrice;
+    case /* Thursday */3 :
+        return StalkExchange$ReasonReactExamples.updateThursdayPrice;
+    case /* Friday */4 :
+        return StalkExchange$ReasonReactExamples.updateFridayPrice;
+    case /* Saturday */5 :
+        return StalkExchange$ReasonReactExamples.updateSaturdayPrice;
+    
+  }
+}
+
+function updateStalkMarketSellPrice(broker, price, dayOfWeek, markets) {
+  var brokerMarket = Belt_List.head(Belt_List.keep(markets, (function (param) {
+              return param.stalkBroker === broker;
+            })));
+  if (brokerMarket !== undefined) {
+    return Belt_List.add(Belt_List.keep(markets, (function (param) {
+                      return param.stalkBroker !== broker;
+                    })), getUpdateByDayOfWeek(dayOfWeek)(price, brokerMarket));
+  } else {
+    return markets;
+  }
+}
+
+function updateStalkMarketPurchasePrice(broker, sundayPrice, markets) {
+  var brokerMarket = Belt_List.head(Belt_List.keep(markets, (function (param) {
+              return param.stalkBroker === broker;
+            })));
+  if (brokerMarket !== undefined) {
+    var market = brokerMarket;
+    return Belt_List.add(Belt_List.keep(markets, (function (param) {
+                      return param.stalkBroker !== broker;
+                    })), {
+                stalkBroker: market.stalkBroker,
+                sundayPrice: sundayPrice,
+                mondayPrice: market.mondayPrice,
+                tuesdayPrice: market.tuesdayPrice,
+                wednesdayPrice: market.wednesdayPrice,
+                thursdayPrice: market.thursdayPrice,
+                fridayPrice: market.fridayPrice,
+                saturdayPrice: market.saturdayPrice
+              });
   } else {
     return markets;
   }
 }
 
 function stalkMarketReducer(state, action) {
-  if (action.tag) {
-    return /* :: */[
-            StalkExchange$ReasonReactExamples.createNewMarket(action[0], undefined),
-            state
-          ];
-  } else {
-    return updateStalkMarketPurchasePrice(action[0], action[1], state);
+  switch (action.tag | 0) {
+    case /* UpdateStalkMarketSellPrice */0 :
+        return updateStalkMarketSellPrice(action[0], action[1], action[2], state);
+    case /* AddStalkMarketPrice */1 :
+        return updateStalkMarketPurchasePrice(action[0], action[1], state);
+    case /* AddNewBroker */2 :
+        return /* :: */[
+                StalkExchange$ReasonReactExamples.createNewMarket(action[0], undefined),
+                state
+              ];
+    
   }
 }
 
@@ -100,6 +134,11 @@ var StalkExchangeStore = include;
 
 exports.MarketAction = MarketAction;
 exports.getMarkets = getMarkets;
+exports.negated = negated;
+exports.findMarketByBroker = findMarketByBroker;
+exports.findMarketsThatDoNotMatchBroker = findMarketsThatDoNotMatchBroker;
+exports.getUpdateByDayOfWeek = getUpdateByDayOfWeek;
+exports.updateStalkMarketSellPrice = updateStalkMarketSellPrice;
 exports.updateStalkMarketPurchasePrice = updateStalkMarketPurchasePrice;
 exports.stalkMarketReducer = stalkMarketReducer;
 exports.appReducer = appReducer;

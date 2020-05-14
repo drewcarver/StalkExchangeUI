@@ -5,7 +5,7 @@ var React = require("react");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var RootReducer$ReasonReactExamples = require("../Redux/RootReducer.bs.js");
 var StalkExchangeRow$ReasonReactExamples = require("./StalkExchangeRow.bs.js");
-var AddNewBrokerModal$ReasonReactExamples = require("./AddNewBrokerModal.bs.js");
+var UpdateStalkMarketPriceModal$ReasonReactExamples = require("./UpdateStalkMarketPriceModal.bs.js");
 
 function marketsSelector(state) {
   return state.markets;
@@ -29,7 +29,7 @@ function StalkExchangeTable(Props) {
                                     return true;
                                   }));
                     })
-                }, "Add New Broker"), React.createElement(AddNewBrokerModal$ReasonReactExamples.make, {
+                }, "Add New Broker"), React.createElement(UpdateStalkMarketPriceModal$ReasonReactExamples.make, {
                   isOpen: match[0],
                   onClose: (function (param) {
                       return Curry._1(setIsOpen, (function (param) {

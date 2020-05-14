@@ -9,7 +9,7 @@ let make = () => {
 
   <div>
     <button onClick={_ => setIsOpen(_ => true)}>"Add New Broker" -> React.string</button>
-    <AddNewBrokerModal isOpen onClose={_ => setIsOpen(_ => false)} />
+    <UpdateStalkMarketPriceModal isOpen onClose={_ => setIsOpen(_ => false)} />
     <table className="stalk-market-table">
       <tbody>
         marketRows -> React.array

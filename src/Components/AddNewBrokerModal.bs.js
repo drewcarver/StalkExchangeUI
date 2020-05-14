@@ -34,7 +34,7 @@ function AddNewBrokerModal(Props) {
                   onClick: (function (param) {
                       return Curry._1(dispatch, [
                                   RootReducer$ReasonReactExamples.MarketAction,
-                                  /* AddNewBroker */Block.__(1, [brokerName])
+                                  /* AddNewBroker */Block.__(2, [brokerName])
                                 ]);
                     })
                 }, "Save"));
