@@ -1,6 +1,7 @@
 [@react.component]
 let make = (~isOpen, ~onClose) => {
     open RootReducer;
+
     let dispatch = StalkExchangeStore.useDispatch();
     let (price, setPrice) = React.useState(() => None);
     let (dayOfWeek, setDayOfWeek) = React.useState(() => None);

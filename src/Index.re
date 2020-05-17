@@ -1,3 +1,9 @@
+%raw
+{|
+  require("./Reset.css")
+  require("./Main.sass")
+|};
+
 open RootReducer;
 
 [@bs.val] external document: Js.t({..}) = "document";

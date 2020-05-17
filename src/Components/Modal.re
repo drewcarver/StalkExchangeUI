@@ -4,10 +4,10 @@
 |};
 
 [@react.component]
-let make = (~children, ~isOpen) => {
+let make = (~children, ~isOpen, ~className = "") => {
 
     if (isOpen) {
-        <div className="modal">
+        <div className={"modal" ++ {j| $className|j}}>
             children
         </div>
     } else {
