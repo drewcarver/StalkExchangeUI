@@ -11,6 +11,6 @@ let make = (~marketRow) => {
     <StalkExchangeSellingPriceColumn turnipSellPrice=marketRow.thursdayPrice />
     <StalkExchangeSellingPriceColumn turnipSellPrice=marketRow.fridayPrice />
     <StalkExchangeSellingPriceColumn turnipSellPrice=marketRow.saturdayPrice />
-    <td>
+    <StalkExchangeRowActions brokerName=marketRow.stalkBroker />
   </tr>
 }
