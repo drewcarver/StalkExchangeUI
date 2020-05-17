@@ -38,7 +38,9 @@ function StalkExchangeTable(Props) {
                     })
                 }), React.createElement("table", {
                   className: "stalk-market-table"
-                }, React.createElement("tbody", undefined, marketRows)));
+                }, React.createElement("thead", undefined, React.createElement("tr", {
+                          className: "stalk-market-table__header-row"
+                        }, React.createElement("th", undefined, "Broker"), React.createElement("th", undefined, "Purchase Price"), React.createElement("th", undefined, "Monday"), React.createElement("th", undefined, "Tuesday"), React.createElement("th", undefined, "Wednesday"), React.createElement("th", undefined, "Thursday"), React.createElement("th", undefined, "Friday"), React.createElement("th", undefined, "Saturday"))), React.createElement("tbody", undefined, marketRows)));
 }
 
 var make = StalkExchangeTable;
