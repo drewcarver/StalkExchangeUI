@@ -21,6 +21,7 @@ let make = () => {
           <th>"Thursday"        -> React.string</th>
           <th>"Friday"          -> React.string</th>
           <th>"Saturday"        -> React.string</th>
+          <th>"Actions"         -> React.string</th>
         </tr>
       </thead>
       <tbody>
