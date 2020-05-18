@@ -1,0 +1,20 @@
+{
+    "files.exclude": {
+        ".yarn/unplugged/bs-platform-npm-7.3.2-1f29a7d12b/node_modules/bs-platform/esy.lock/**/*": false,
+        "node_modules/bs-platform/esy.lock/**/*": false,
+        ".yarn/cache/.gitignore": true,
+        ".yarn/cache/**/*.lock": true,
+        "**/.DS_Store": true,
+        "**/.merlin": true,
+        "**/.bsb.lock": true,
+        "src/**/*.bs.js": true,
+        ".yarn": true,
+        "**/npm-debug.log": true,
+        "lib/bs/": true,
+        "node_modules/": true,
+        "bundleOutput/": true,
+        "dist": true,
+        "bundleOutput": true,
+        ".cache": true
+    }
+}

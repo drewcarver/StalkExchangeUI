@@ -3,7 +3,7 @@ let marketsSelector = (state: AppState.stalkExchangeState) => state.markets;
 [@react.component]
 let make = () => {
   let markets = RootReducer.StalkExchangeStore.useSelector(marketsSelector);
-  let marketRows = Belt.List.map(markets, marketRow => <StalkExchangeRow key=marketRow.stalkBroker marketRow/>) 
+  let marketRows = Belt.List.map(markets, market => <StalkExchangeRow key=market.stalkBroker market/>) 
     |> Belt.List.toArray;
   let (isOpen, setIsOpen) = React.useState(() => false);
 
@@ -21,7 +21,6 @@ let make = () => {
           <th>"Thursday"        -> React.string</th>
           <th>"Friday"          -> React.string</th>
           <th>"Saturday"        -> React.string</th>
-          <th>"Actions"         -> React.string</th>
         </tr>
       </thead>
       <tbody>

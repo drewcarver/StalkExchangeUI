@@ -26,7 +26,6 @@ let getMarkets = (store: Reductive.Store.t(ReduxThunk.thunk(AppState.stalkExchan
   Reductive.Store.dispatch(store, MarketAction(AddStalkMarketPrice("Mochi", 40)));
 }
 
-let negated = (f, x) => !( f(x) );
 let findMarketByBroker = (broker, market) => market.stalkBroker == broker;
 let findMarketsThatDoNotMatchBroker = (broker, market) => market.stalkBroker != broker;
 
@@ -47,7 +46,7 @@ let updateStalkMarketSellPrice = (broker, price, dayOfWeek, markets) => {
   let brokerMarket = findMarketByBroker(broker) -> filterMarkets -> head;
 
   switch (brokerMarket) {
-    | Some(market) => getUpdateByDayOfWeek(dayOfWeek)(price, market) 
+    | Some(market) => getUpdateByDayOfWeek(dayOfWeek, price, market) 
       |> findMarketsThatDoNotMatchBroker(broker) 
       -> filterMarkets 
       -> add
